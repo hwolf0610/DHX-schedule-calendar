@@ -1,0 +1,207 @@
+<!doctype html>
+
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>tui_calendar_DHX</title>
+
+	<script src='js/dhtmlxscheduler.js?v=5.3.10' type="text/javascript" charset="utf-8"></script>
+	<script src='js/dhtmlxscheduler_timeline.js?v=5.3.10' type="text/javascript" charset="utf-8"></script>
+	<script src='js/dhtmlxscheduler_daytimeline.js?v=5.3.10' type="text/javascript" charset="utf-8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel='stylesheet' type='text/css' href='css/dhtmlxscheduler_material.css?v=5.3.10'>
+
+	<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="./node_modules/axios/dist/axios.min.js"></script> -->
+	<!-- <script src="script.js"></script> -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+	<style>
+		html,
+		body {
+			margin: 0px;
+			padding: 0px;
+			height: 100%;
+			overflow: hidden;
+		}
+
+		.one_line {
+			white-space: nowrap;
+			overflow: hidden;
+			padding-top: 5px;
+			padding-left: 5px;
+			text-align: left !important;
+		}
+
+		.month_tab {
+			display: none;
+		}
+
+		.week_tab {
+			display: none;
+		}
+
+		.day_tab {
+			display: none;
+		}
+
+		.timeline_tab {
+			display: none;
+		}
+
+		.dhx_cal_date {
+			display: none;
+		}
+
+		.dhx_cal_ltitle {
+			background: green;
+		}
+
+		.dhx_cal_event_line {
+			background: blue;
+		}
+	</style>
+	<script>
+		// using Promise 
+		// fetch("event.json")
+		// 	.then(response => response.json());
+
+		// // let response = await fetch("event.json");
+		// // let parsed = await response.json();
+
+		// console.log("parsed:", parsed)
+
+	</script>
+
+
+	<script>
+		// console.log("actual_JSON:", actual_JSON)
+
+		window.addEventListener("DOMContentLoaded", function () {
+
+			scheduler.locale.labels.timeline_tab = "Timeline"
+			scheduler.locale.labels.section_custom = "Section";
+			scheduler.config.details_on_create = true;
+			scheduler.config.details_on_dblclick = true;
+
+			scheduler.config.default_date = "%j %M %Y (#%W)";
+
+
+			//===============
+			//Configuration
+			//===============
+			var sections = [
+				{ key: 1, label: "James Smith" },
+				{ key: 2, label: "John Williams" },
+				{ key: 3, label: "David Miller" },
+				{ key: 5, label: "Linda Brown" },
+				{ key: 4, label: "Linda narr" }
+			];
+
+			scheduler.createTimelineView({
+				name: "timeline",
+				x_unit: "day",
+				x_date: " %j %M %Y %D ",
+				// x_date: "%j %M %Y (#%W) %D %j %F",
+				x_step: 1,
+				x_size: 7,
+				x_start: 0,
+				x_length: 7,
+				y_unit: sections,
+				y_property: "section_id",
+				render: "bar",
+				round_position: true
+			});
+
+			//===============
+			//Data loading
+			//===============
+			scheduler.config.lightbox.sections = [
+				{ name: "description", height: 60, map_to: "text", type: "textarea", focus: true },
+				{ name: "custom", height: 30, type: "select", options: sections, map_to: "section_id" },
+				{ name: "time", height: 72, type: "time", map_to: "auto" }
+			]
+
+			scheduler.init('scheduler_here', new Date(2021, 0, 0), "timeline");
+			// const event_list = [
+			// 	{ start_date: "2021-01-02 09:00", end_date: "2021-01-15 12:00", text: "Task A-12458", impact: "Blue", section_id: 1 },
+
+			// 	{ start_date: "2021-01-04 12:00", end_date: "2021-01-12 20:00", text: "Task B-48865", impact: "Red", section_id: 2 },
+
+			// 	{ start_date: "2021-01-01 08:00", end_date: "2021-01-20 12:00", text: "Task C-32421", impact: "Blue", section_id: 3 },
+			// 	{ start_date: "2021-01-16 08:00", end_date: "2021-01-25 12:00", text: "Task C-32421", impact: "Red", section_id: 3 },
+
+			// 	{ start_date: "2021-01-30 09:20", end_date: "2021-02-02 12:20", text: "Task D-52688", impact: "Blue", section_id: 4 }
+			// ]
+			// scheduler.parse(event_list);
+			// const event_list = fetchUsers()
+			// scheduler.parse(event_list)
+
+			const fetchEvents = () => {
+				axios.get('http://localhost:4000/read_event')
+					.then(response => {
+						const events = response.data.data;
+						console.log(`GET list users`, events);
+						console.log(`GET list users`, new Date(events[0].start_date).getTime()  );
+						scheduler.parse(events);
+					})
+					.catch(error => console.error(error));
+			};
+
+			fetchEvents();
+
+
+			// fetch('event.json')
+			// 	.then(response => response.json())
+			// 	.then(data => {
+			// 		// Do something with your data
+			// 		console.log("data:", data)
+			// 		scheduler.parse(data);
+			// 	});
+		});
+
+	</script>
+</head>
+
+<body>
+	<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+		<h1 style="text-align: center;">Tui_calendar_DHX</h1>
+		<div class="dhx_cal_navline">
+			<div class="dhx_cal_prev_button">&nbsp;Prev</div>
+			<div class="dhx_cal_next_button">&nbsp;Next</div>
+			<div class="dhx_cal_today_button"></div>
+			<!-- <div onclick="onAdd_event()">ADD_Event</div> -->
+			<div class="dhx_cal_date"></div>
+			<div class="dhx_cal_tab" name="day_tab" style="right:204px;" style="background: red;"></div>
+			<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+			<div class="dhx_cal_tab" name="timeline_tab" style="right:280px;"></div>
+			<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+		</div>
+		<div class="dhx_cal_header" onclick="onClick_div()">
+		</div>
+		<div class="dhx_cal_data">
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			// alert('ready');
+		document.getElementsByClassName('dhx_lightbox_time_select').style.display="none"
+
+		});
+
+		function onClick_div() {
+			alert("sdfdsf")
+		}
+		function onAdd_event() {
+			window.location.href = "add_event.html"
+		}
+
+		$('.dhx_save_btn').click(function() {
+			alert('save button clicked');
+		})
+
+
+
+
+	</script>
+
+</body>

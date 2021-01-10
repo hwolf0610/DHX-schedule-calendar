@@ -1,0 +1,51 @@
+[
+    {
+        "start_date": "2021-01-02 09:00",
+        "end_date": "2021-01-15 12:00",
+        "text": "Task A-12458",
+        "impact": "Blue",
+        "section_id": 2
+    },
+    {
+        "start_date": "2021-01-02 09:00",
+        "end_date": "2021-01-15 12:00",
+        "text": "Task A-12458",
+        "impact": "Red",
+        "section_id": 3
+    },
+    {
+        "start_date": "2021-01-01 0",
+        "end_date": "2021-01-02 0",
+        "text": "New event",
+        "impact": "Blue",
+        "section_id": 3
+    },
+    {
+        "start_date": "2020-12-31 0",
+        "end_date": "2021-01-01 0",
+        "text": "New event",
+        "impact": "Blue",
+        "section_id": 2
+    },
+    {
+        "start_date": "2021-01-01 0",
+        "end_date": "2021-01-02 0",
+        "text": "New event",
+        "impact": "Blue",
+        "section_id": 1
+    },
+    {
+        "start_date": "2021-01-01 1.3333333333333333:20",
+        "end_date": "2021-01-02 1.5833333333333333:35",
+        "text": "New event",
+        "impact": "Blue",
+        "section_id": 5
+    },
+    {
+        "start_date": "2021-01-01 8:40",
+        "end_date": "2021-01-02 9:50",
+        "text": "New event",
+        "impact": "Blue",
+        "section_id": 5
+    }
+]

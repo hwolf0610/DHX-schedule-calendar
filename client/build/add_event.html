@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="create-user">
+        <h1>Create Event</h1>
+        <form>
+            <input type="text" id="text" placeholder="Enter Event Description"><br /><br />
+            <input type="date" id="start_date" placeholder="Enter Event start date"><br /><br />
+            <input type="date" id="end_date" placeholder="Enter Event end date"><br /><br />
+            <input type="text" id="sction_id" placeholder="Enter Section_id"><br /><br />
+            <!-- <button type="submit">Add Event</button> -->
+            <!-- action="http://localhost:4000/add_events" method="POST" -->
+            <button onClick="onAdd_event()">Add Event</button>
+        </form>
+    </div>
+
+    <script>
+        function onAdd_event() {
+            let text = document.getElementById('text').value;
+            let start_date = document.getElementById('start_date').value;
+            let end_date = document.getElementById('end_date').value;
+            let sction_id = document.getElementById('sction_id').value;
+            console.log("text", text, start_date, end_date, eval(sction_id) )
+            const events = { text, start_date, end_date, eval(sction_id) };
+            createEvent(events);
+        }
+
+        const createEvent = (events) => {
+            axios.post('http://localhost:4000/add_events', events)
+                .then(response => {
+                    const addedEvents = response.data;
+                    console.log(`POST: user is added`, addedEvents);
+
+                })
+                .catch(error => console.error(error));
+        };
+
+
+    </script>
+</body>
+
+</html>
